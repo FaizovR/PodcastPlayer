@@ -5,6 +5,7 @@ import android.app.SharedElementCallback
 import androidx.lifecycle.AndroidViewModel
 import ru.faizovr.PodPlay.repository.ItunesRepo
 import ru.faizovr.PodPlay.service.PodcastResponse
+import ru.faizovr.PodPlay.util.DateUtils
 
 class SearchViewModel(application: Application) : AndroidViewModel(application) {
     var iTunesRepo: ItunesRepo? = null
@@ -19,7 +20,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         itunesPodcast: PodcastResponse.ItunesPodcast) =
         PodcastSummaryViewData(
             itunesPodcast.collectionCensoredName,
-            itunesPodcast.releaseDate,
+            DateUtils.jsonDateToShortDate(itunesPodcast.releaseDate),
             itunesPodcast.artworkUrl30,
             itunesPodcast.feedUrl)
 
