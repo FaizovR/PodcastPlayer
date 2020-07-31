@@ -21,6 +21,7 @@ import ru.faizovr.PodPlay.service.ItunesService
 import kotlinx.android.synthetic.main.activity_podcast.*
 import ru.faizovr.PodPlay.adapter.PodcastListAdapter
 import ru.faizovr.PodPlay.repository.PodcastRepo
+import ru.faizovr.PodPlay.service.FeedService
 import ru.faizovr.PodPlay.viewmodel.PodcastViewModel
 import ru.faizovr.PodPlay.viewmodel.SearchViewModel
 
@@ -132,7 +133,8 @@ class PodcastActivity : AppCompatActivity(), PodcastListAdapter.PodcastListAdapt
     private fun setupViewModels() {
         val service = ItunesService.instance
         searchViewModel.iTunesRepo = ItunesRepo(service)
-        podcastViewModel.podcastRepo = PodcastRepo()
+        val rssService = FeedService.instance
+        podcastViewModel.podcastRepo = PodcastRepo(rssService)
     }
 
     private fun updateControls() {
