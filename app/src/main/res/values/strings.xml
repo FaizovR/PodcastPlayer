@@ -5,4 +5,6 @@
     <string name="image_content_description">Podcast image</string>
     <string name="subscribe">Subscribe</string>
     <string name="ok_button">OK</string>
+    <string name="subscibed_podcasts">Subscribed</string>
+    <string name="unsubscribe">Unsubscribe</string>
 </resources>
