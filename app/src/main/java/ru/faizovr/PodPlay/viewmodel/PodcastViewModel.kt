@@ -42,7 +42,7 @@ class PodcastViewModel(application: Application) :
         }
     }
 
-    private fun podcastToPpdcastView(podcast: Podcast): PodcastViewData {
+    private fun podcastToPodcastView(podcast: Podcast): PodcastViewData {
         return PodcastViewData(
             podcast.id != null,
             podcast.feedTitle,
@@ -62,7 +62,7 @@ class PodcastViewModel(application: Application) :
             it?.let {
                 it.feedTitle = podcastSummaryViewData.name ?: ""
                 it.imageUrl = podcastSummaryViewData.imageUrl ?: ""
-                activePodcastViewData = podcastToPpdcastView(it)
+                activePodcastViewData = podcastToPodcastView(it)
                 activePodcast = it
                 callback(activePodcastViewData)
             }
@@ -72,6 +72,7 @@ class PodcastViewModel(application: Application) :
     fun saveActivePodcast() {
         val repo = podcastRepo ?: return
         activePodcast?.let {
+            it.episodes = it.episodes.drop(1)
             repo.save(it)
         }
     }
@@ -104,6 +105,19 @@ class PodcastViewModel(application: Application) :
         val repo = podcastRepo ?: return
         activePodcast?.let {
             repo.delete(it)
+        }
+    }
+
+    fun setActivePodcast(feedUrl: String, callback: (SearchViewModel.PodcastSummaryViewData?) -> Unit) {
+        val repo = podcastRepo ?: return
+        repo.getPodcast(feedUrl) {
+            if (it == null) {
+                callback(null)
+            } else {
+                activePodcastViewData = podcastToPodcastView(it)
+                activePodcast = it
+                callback(podcastToSummaryView(it))
+            }
         }
     }
 }
